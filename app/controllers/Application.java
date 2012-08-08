@@ -10,6 +10,8 @@ import models.*;
 public class Application extends Controller {
 
     public static void upvote (String namespace, String key) {
+    	response.setHeader("Access-Control-Allow-Origin", "*");
+    	
     	Vote v = findOrCreate(namespace, key);
     	v.upvote();
     	v.save();
@@ -18,6 +20,8 @@ public class Application extends Controller {
     }
     
     public static void downvote(String namespace, String key) {
+    	response.setHeader("Access-Control-Allow-Origin", "*");
+    	
     	Vote v = findOrCreate(namespace, key);
     	v.downvote();
     	v.save();
@@ -30,6 +34,8 @@ public class Application extends Controller {
      * @param namespace
      */
     public static void getvotes(String namespace) {
+    	response.setHeader("Access-Control-Allow-Origin", "*");
+    	
     	List<Vote> votes = Vote.find("byNamespace", namespace).fetch();
     	Map<String, Integer> toReturn = new HashMap<String, Integer>();
     	
