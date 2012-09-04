@@ -3,6 +3,6 @@
 # ~~~~
 
 # Home page
-GET     /upvote/{namespace}/{key}		Application.upvote
-GET     /downvote/{namespace}/{key}     Application.downvote
+*       /upvote                       Application.upvote
+*       /downvote                     Application.downvote
 GET     /getvotes/{namespace}			Application.getvotes

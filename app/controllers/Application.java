@@ -8,23 +8,50 @@ import java.util.*;
 import models.*;
 
 public class Application extends Controller {
-
-    public static void upvote (String namespace, String key) {
-    	response.setHeader("Access-Control-Allow-Origin", "*");
-    	
+    public static void upvote (String namespace, String key, String name, String email, 
+                                 Boolean takesLocalTransit, Boolean canEmail) {
+        response.setHeader("Access-Control-Allow-Origin", "*");
+        
     	Vote v = findOrCreate(namespace, key);
     	v.upvote();
     	v.save();
     	
+    	if (notNullOrEmpty(name, email)) {
+    	    // true because this is an upvote
+    	    VoteInfo vi = new VoteInfo(v, name, email, takesLocalTransit, canEmail, true);
+    	    vi.save();
+    	}
+    	    
+    	
     	renderJSON("{\"votes\":" + v.votes + "}");
     }
     
-    public static void downvote(String namespace, String key) {
-    	response.setHeader("Access-Control-Allow-Origin", "*");
+    /**
+     * Returns true if any of the provided strings are neither null nor ""
+     * @param strings
+     * @return
+     */
+    private static boolean notNullOrEmpty(String... strings) {
+        for (String string : strings) {
+            if (string != null && !string.equals(""))
+                return true;
+        }
+        return false;
+    }
+
+    public static void downvote(String namespace, String key, String name, String email, 
+            Boolean takesLocalTransit, Boolean canEmail) {
+        response.setHeader("Access-Control-Allow-Origin", "*");
     	
     	Vote v = findOrCreate(namespace, key);
     	v.downvote();
     	v.save();
+    	
+        if (notNullOrEmpty(name, email)) {
+            // false because this is a downvote
+            VoteInfo vi = new VoteInfo(v, name, email, takesLocalTransit, canEmail, false);
+            vi.save();
+        }
     	
     	renderJSON("{\"votes\":" + v.votes + "}");
     }
