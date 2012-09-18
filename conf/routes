@@ -5,4 +5,6 @@
 # Home page
 *       /upvote                       Application.upvote
 *       /downvote                     Application.downvote
-GET     /getvotes/{namespace}			Application.getvotes
+GET     /getvotes/{namespace}         Application.getvotes
+GET	/			      staticFile:public/index.html
+GET     /			      staticDir:public
